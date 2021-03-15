@@ -1,0 +1,53 @@
+{% load static %}
+    <!--Navbar-->
+    <header class="text-gray-700 body-font">
+        <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
+            <a class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10 text-white p-2 bg-teal-500 rounded-full" viewBox="0 0 24 24">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                </svg>
+                <span class="ml-3 text-xl"><a href="{% url 'index' %}"><b>PrintMe</b></a></span>
+            </a>
+            <nav class="md:mr-auto md:ml-4 md:py-1 md:pl-4 md:border-l md:border-gray-400	flex flex-wrap items-center text-base justify-center">
+                <a class="mr-5 hover:text-teal-900" href="{% url 'index' %}">Home</a>
+                <a class="mr-5 hover:text-teal-900" href="{% url 'about' %}">About</a>
+                <a class="mr-5 hover:text-teal-900" href="{% url 'product' %}">All Products</a>
+                <a class="mr-5 hover:text-teal-900" href="{% url 'contact' %}">Contact us</a>
+                <div class="menu_search">
+                    <form action="{% url 'search' %}" id="menu_search_form" class="menu_search_form" method="GET">
+                        <input type="text" class="search_input" placeholder="Search Item" name="products" required="required" values="{{ values.products }}">
+                        <button class="menu_search_button" style="margin-left: -25px;"><img src="{% static 'images/search.png' %}" alt=""></button>
+                    </form>
+                </div>
+            </nav>
+                {% if user.is_authenticated %}
+
+
+                <a href="javascript:{document.getElementById('logout').submit()}">
+                <button class="text-white bg-gray-500 border-0 py-2 px-8 focus:outline-none hover:bg-gray-600 rounded text-lg" style="margin-right:10px" >Log Out</button>
+
+                    <form action="{% url 'logout' %}" method="POST" id='logout'>
+                        {% csrf_token %}
+                        <input type="hidden">
+                </form>
+
+                     </button>
+                    </a>
+                <br>
+
+          <p>Welcome {{user.username}}</p>
+
+
+
+                {% else %}
+                   <button class="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg" style="margin-right:10px;">
+                       <a href="{% url 'login' %}">
+                       Login</a></button>
+                   <button class="text-white bg-teal-500 border-0 py-2 px-8 focus:outline-none hover:bg-teal-600 rounded text-lg" style="margin-right:10px;">
+                       <a href="{% url 'register' %}">
+                          Register</a></button>
+
+
+                {% endif %}
+        </div>
+    </header>
