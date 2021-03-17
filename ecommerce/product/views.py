@@ -8,11 +8,18 @@ from django.views import View
 class Index(View):
     def post(self,request):
         product=request.POST.get('product')
+        remove=request.POST.get('remove')
         cart= request.session.get('cart')
         if cart:
             quantity=cart.get('product')
+
             if quantity:
-                 cart[product]= quantity + 1
+                if remove:
+                    cart[product]=quantity-1
+                else:
+                    cart[product] = quantity + 1
+                cart[product]= quantity + 1
+                print(cart[product])
             else:
                 cart[product]=1
 

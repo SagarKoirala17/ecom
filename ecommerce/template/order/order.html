@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load cart %}
+{% block content %}
+{% load custom_filter %}
+<section class="text-gray-600 body-font">
+  <div class="container px-5 py-24 mx-auto">
+    <div class="flex flex-col text-center w-full mb-20">
+      <h1 class="sm:text-4xl text-3xl font-medium title-font mb-2 text-gray-900">Your Orders</h1>
+      <p class="lg:w-2/3 mx-auto leading-relaxed text-base">Banh mi cornhole echo park skateboard authentic crucifix neutra tilde lyft biodiesel artisan direct trade mumblecore 3 wolf moon twee</p>
+    </div>
+    <div class="lg:w-2/3 w-full mx-auto overflow-auto">
+      <table class="table-auto w-full text-left whitespace-no-wrap">
+        <thead>
+          <tr>
+            <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl">SN</th>
+            <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl">Name</th>
+            <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Price</th>
+            <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Color</th>
+            <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Quantity</th>
+            <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Total</th>
+            <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          {% for o in orders %}
+          <tr>
+
+            <td class="px-4 py-3">{{ forloop.counter }}</td>
+
+            <td class="px-4 py-3">{{ o.product.name }}</td>
+            <td class="px-4 py-3">{{o.price|currency }}</td>
+            <td class="px-4 py-3">{{  o.product.color }}</td>
+            <td class="px-4 py-3 text-lg text-gray-900">{{o.quantity}}</td>
+            <td class="px-4 py-3 text-lg text-gray-900">{{o.quantity|multiply:o.price}}</td>
+            {% if o.status %}
+            <td class="px-4 py-3 text-lg text-gray-900">Completed</td>
+            {% else %}
+            <td class="px-4 py-3 text-lg text-gray-900">Not Completed</td>
+            {% endif %}
+          </tr>
+        {% endfor %}
+         </tbody>
+
+      </table>
+    </div>
+  </div>
+</section>
+{% endblock %}

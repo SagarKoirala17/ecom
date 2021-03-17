@@ -1,8 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.auth.models import User, auth
-
+from django.views import View
 from product.models import Product
+
 
 # Create your views here.
 def register(request):
@@ -45,16 +46,21 @@ def register(request):
         return render(request, 'account/register.html')
 
 
-def login(request):
-    if request.method == "POST":
+class Login(View):
+
+    def get(self, request):
+
+        return render(request, 'account/login.html')
+
+    def post(self, request):
         username=request.POST['username']
         password = request.POST['password']
         user = auth.authenticate(username=username, password=password)
         if user is not None:
             request.session['user_id']=user.id
-            request.session['username'] = user.username
             auth.login(request, user)
             messages.success(request, "You are now logged in!")
+
             return redirect('index')
         else:
             messages.error(request, "Wrong username and password")
@@ -62,11 +68,10 @@ def login(request):
 
 
 
-    else:
-        return render(request, 'account/login.html')
 def logout(request):
     if request.method=="POST":
       auth.logout(request)
       messages.success(request,"You are logged out")
+      request.session.clear()
       return redirect('index')
 

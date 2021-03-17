@@ -9,7 +9,7 @@
     .page-item active{
     color:black;
     border:2px solid black;
-    }
+     }
 
 </style>
  <div class="bg-white shadow w-35 my-2">
@@ -40,21 +40,25 @@
                         <h3 class="text-gray-500 text-xs tracking-widest title-font mb-1">Products you may like</h3>
                         <h2 class="text-gray-900 title-font text-lg font-medium">{{ p.name }}</h2>
                         <p class="mt-1">Rs.{{ p.price }}</p>
-                        {% if p|is_in_cart:request.session.cart %}
-                        <div class="container">
-                            <input class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="submit" value="-">
 
 
 
-                            <p> {{ p|cart_quantity:request.session.cart }} in cart</p>
-                            <form method="post" action="">
-                            {% csrf_token %}
-                            <input type="hidden" name="product"  value="{{p.id}}">
-                        <input class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="submit" value="+" >
+						{% if p|is_in_cart:request.session.cart %}
+						<div class="row no-gutters">
+							<form action="" class="col-2 " method="post">
+								{% csrf_token %}
+								<input hidden type="text" name='product' value='{{p.id}}'>
+								<input hidden type="text" name='remove' value='True'>
+								<input type="submit" value=" - " class="btn btn-block btn-light border-right">
+							</form>
+							<div class="text-center col">{{p|cart_quantity:request.session.cart}} in Cart</div>
+							<form action="" class="col-2 " method="post">
+								{% csrf_token %}
+								<input hidden type="text" name='product' value='{{p.id}}'>
+								<input type="submit" value=" + " class="btn btn-block btn-light border-left">
+							</form>
+						</div>
 
-                        </form>
-
-                        </div>
                         {% else %}
 
 
@@ -62,9 +66,10 @@
                              {% csrf_token %}
                              <input type="hidden" name="product"  value="{{p.id}}">
                         <button class="lg:mt-2 xl:mt-0 flex-shrink-0 inline-flex text-white bg-teal-500 border-0 py-2 px-4 focus:outline-none hover:bg-teal-600 rounded"><a href="#" type="submit" >Add to Cart</a></button>
+                             <button class="lg:mt-2 xl:mt-0 flex-shrink-0 inline-flex text-white bg-gray-500 border-0 py-2 px-4 focus:outline-none hover:bg-gray-600 rounded"><a href="{% url 'product_description' p.id %}">View Product</a></button>
+                         </form>
 
-                        <button class="lg:mt-2 xl:mt-0 flex-shrink-0 inline-flex text-white bg-gray-500 border-0 py-2 px-4 focus:outline-none hover:bg-gray-600 rounded"><a href="{% url 'product_description' p.id %}">View Product</a></button>
-                    </form>
+
                         {% endif %}
 
                     </div>
@@ -74,5 +79,6 @@
 
             </div>
         </div>
+  </section>
 
 {% endblock %}`
